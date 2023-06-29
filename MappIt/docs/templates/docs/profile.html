@@ -1,0 +1,97 @@
+{% extends 'docs/base-main.html' %}
+
+{% block content %}
+  {% load static %}
+  {% load crispy_forms_tags %}
+
+
+    <div class="docs-wrapper">
+       <div class="container">
+      <div class="wrapper bg-white mt-sm-5">
+        <h4 class="pb-4 border-bottom">Account settings</h4>
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+      <div class="container">
+      <div class="row flex-lg-nowrap">
+
+        <div class="col">
+          <div class="row">
+            <div class="col mb-3">
+              <div class="card" style="border-color: transparent;">
+                <div class="card-body">
+                  <div class="e-profile">
+                    <div class="row">
+                      <div class="col-12 col-sm-auto mb-3">
+                        <div class="mx-auto" style="width: 140px;">
+                          <div class="d-flex justify-content-center align-items-center rounded" >
+                            <img class='img-thumbnail rounded' src='{{ user.profile.image.url}}' style="border: 0 ;">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                          <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ user.username }}</h4>
+                        </div>
+                        <div class="text-center text-sm-right">
+
+                          <div class="text-muted"><small>Joined {{ user.date_joined|date:"d F, Y" }}</small></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="tab-content pt-3">
+                      <div class="tab-pane active">
+                        <form method="POST" class="my-login-validation" enctype="multipart/form-data" novalidate="">
+                          {% csrf_token %}
+                          <fieldset class="form-group">
+                            {{u_form|crispy}}
+                            {{p_form|crispy}}
+                          </fieldset>
+
+                          <div class="form-group m-0">
+                            <button type="submit" class="btn btn-primary btn-block my-3">
+                              Save changes
+                            </button>
+                          </div>
+                        </form>
+
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+      <!--<div class="d-sm-flex align-items-center pt-3" id="deactivate">
+          <div>
+              <b>Deactivate your account</b>
+              <p>Details about your company account and password</p>
+          </div>
+          <div class="ml-auto px-3">
+              <button type="button" class="btn btn-danger">Deactivate</button>
+          </div>
+      </div>//-->
+    </div>
+  </div>
+
+
+
+
+
+
+			    <footer class="footer">
+				    <div class="container text-center fixed-bottom py-1">
+				        <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
+			            <small class="copyright">Designed with <span class="sr-only">love</span><i class="fas fa-heart" style="color: #fb866a;"></i> by <a class="theme-link" href="" target="_blank">Jiggly code factory</a> for BAs</small>
+				    </div>
+			    </footer>
+		    </div>
+	    </div>
+    </div><!--//docs-wrapper-->
+
+{% endblock %}
