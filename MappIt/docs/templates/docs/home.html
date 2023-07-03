@@ -83,6 +83,8 @@
                  </div>
                  {% if category.name == 'Community' %}
                  <a class="card-link-mask" href="{% url 'docs-questions' %}"></a>
+                 {% elif category.name == 'Mapping' %}
+                 <a class="card-link-mask" href="{% url 'docs-mapping' %}"></a>
                  {% else %}
                  <a class="card-link-mask" href="{% url 'docs-page' %}"></a>
                  {% endif %}

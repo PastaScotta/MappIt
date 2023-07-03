@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Post(models.Model):
@@ -27,3 +28,21 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+class DynamicModel(models.Model):
+    # Definisci i campi dinamici del modello qui
+    name = models.CharField(max_length=255, unique=True, verbose_name=_('Table Name'))
+
+    def __str__(self):
+        return self.name
+
+class FieldModel(models.Model):
+    dynamic_model = models.ForeignKey(DynamicModel, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, verbose_name=_('Field Name'))
+    data_type = models.CharField(max_length=255, verbose_name=_('Data Type'))
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        unique_together = ('dynamic_model', 'name')
