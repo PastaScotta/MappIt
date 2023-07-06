@@ -1,59 +1,26 @@
 {% extends 'docs/base-main.html' %}
-
 {% block content %}
-  {% load static %}
-
-
-    <div class="docs-wrapper">
-	    <div id="docs-sidebar" class="docs-sidebar">
-		    <div class="top-search-box d-lg-none p-3">
-                <form class="search-form">
-		            <input type="text" placeholder="Search the docs..." name="search" class="form-control search-input">
-		            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
-		        </form>
+{% load static %}
+<!--//docs-sidebar-->
+<div class="container">
+   <article class="docs-article">
+      <div class="content-section pt-5">
+         <form method="POST" class="my-login-validation " enctype="multipart/form-data" novalidate="">
+            {% csrf_token %}
+            <h1 class="pb-4 ">Delete Question</h1>
+            <fieldset class="form-group mt-4 col-6">
+               <h4> Are you sure you want to delete the post "{{ object.title }}"?</h4>
+            </fieldset>
+            <div class="form-group m-0">
+               <button type="submit" class="btn btn-danger btn-block my-3">
+               Yes, Delete
+               </button>
+               <a class="btn btn-secondary btn-block my-3" href="{% url 'docs-questions-detail' object.id %}">
+               Cancel
+               </a>
             </div>
-		    <nav id="docs-nav" class="docs-nav navbar">
-			    <ul class="section-items list-unstyled nav flex-column pb-3">
-				    <li class="nav-item section-title"><a class="nav-link scrollto active" href="#section-1"><span class="theme-icon-holder me-2"><i class="fas fa-map-signs"></i></span>Community
-</a></li>
-				    <li class="nav-item"><a class="nav-link" href="{% url 'docs-questions'%}">Questions</a></li>
-				    <li class="nav-item"><a class="nav-link scrollto" href="#item-1-2">Tags</a></li>
-			    </ul>
-
-		    </nav><!--//docs-nav-->
-	    </div><!--//docs-sidebar-->
-
-
-	    <div class="docs-content">
-		    <div class="container">
-          <div class="content-section pt-5">
-                          <form method="POST" class="my-login-validation " enctype="multipart/form-data" novalidate="">
-                            {% csrf_token %}
-                            <h4 class="pb-4  border-bottom">Delete Question</h4>
-                            <fieldset class="form-group mt-4 col-6">
-                              <h4> Are you sure you want to delete the post "{{ object.title }}"?</h4>
-                            </fieldset>
-
-                            <div class="form-group m-0">
-                              <button type="submit" class="btn btn-danger btn-block my-3">
-                                Yes, Delete
-                              </button>
-                              <a class="btn btn-secondary btn-block my-3" href="{% url 'docs-questions-detail' object.id %}">
-                                Cancel
-                              </a>
-                            </div>
-                          </form>
-
-                        </div>
-                      </div>
-                    </div>
-
-			    <footer class="footer">
-				    <div class="container text-center py-5">
-				        <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
-			            <small class="copyright">Designed with <span class="sr-only">love</span><i class="fas fa-heart" style="color: #fb866a;"></i> by <a class="theme-link" href="" target="_blank">Jiggly code factory</a> for BAs</small>
-				    </div>
-			    </footer>
-		    </div>
-
+         </form>
+      </div>
+   </article>
+</div>
 {% endblock %}

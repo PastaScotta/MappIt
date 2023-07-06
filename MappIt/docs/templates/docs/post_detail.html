@@ -1,63 +1,35 @@
 {% extends 'docs/base-main.html' %}
 {% block content %}
 {% load static %}
-<div class="docs-wrapper">
-   <div id="docs-sidebar" class="docs-sidebar">
-      <div class="top-search-box d-lg-none p-3">
-         <form class="search-form">
-            <input type="text" placeholder="Search the docs..." name="search" class="form-control search-input">
-            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
-         </form>
-      </div>
-      <nav id="docs-nav" class="docs-nav navbar">
-         <ul class="section-items list-unstyled nav flex-column pb-3">
-            <li class="nav-item section-title"><a class="nav-link scrollto active" href="#section-1"><span class="theme-icon-holder me-2"><i class="fas fa-map-signs"></i></span>Community
-               </a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'docs-questions'%}">Questions</a></li>
-            <li class="nav-item"><a class="nav-link scrollto" href="#item-1-2">Tags</a></li>
-         </ul>
-      </nav>
-      <!--//docs-nav-->
-      <div class="container text-center fixed-bottom py-1">
-         <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
-         <small class="copyright">Designed with <span class="sr-only">love</span><i class="fas fa-heart" style="color: #fb866a;"></i> by <a class="theme-link" href="" target="_blank">Jiggly code factory</a> for BAs</small>
-      </div>
-   </div>
-   <!--//docs-sidebar-->
-   <div class="docs-content">
-      <div class="container">
-         <article class="docs-article" id="section-1">
-            <header class="docs-header mt-3">
-               <div class="row">
-                  <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
-                     <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
-                        <h1 class="docs-heading">{{object.title}} </h1>
-                     </div>
-                     <div class="d-flex align-items-end flex-column">
-                        <div class=" mt-auto text-muted"><small>Posted: {{object.date_posted}}</small></div>
-                        <div class=""><small class="text-primary">{{object.author}}</small></div>
-                     </div>
-                  </div>
+<!--//docs-sidebar-->
+<div class="container">
+   <article class="docs-article" id="section-1">
+      <header class="docs-header mt-3">
+         <div class="row">
+            <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+               <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
+                  <h1 class="docs-heading">{{object.title}} </h1>
                </div>
-               <section class="docs-intro mt-3 border-bottom">
-                  <p>{{object.content}}</p>
-                  {% if object.author == user %}
-                  <div class="row">
-                     <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
-                        <a href="{% url 'docs-questions-update' object.id %}" class="btn btn-primary  btn-sm d-none d-lg-flex">Edit</a>
-                        <a href="{% url 'docs-questions-delete' object.id %}" class="btn btn-danger  btn-sm d-none d-lg-flex mx-3">Delete</a>
-                     </div>
-                  </div>
-                  {% endif %}
-               </section>
-               <!--//docs-intro-->
-            </header>
-         </article>
-         <footer class="footer">
-         </footer>
-      </div>
-   </div>
+               <div class="d-flex align-items-end flex-column">
+                  <div class=" mt-auto text-muted"><small>Posted: {{object.date_posted}}</small></div>
+                  <div class=""><small class="text-primary">{{object.author}}</small></div>
+               </div>
+            </div>
+         </div>
+         <section class="docs-intro mt-3 border-bottom">
+            <p>{{object.content}}</p>
+            {% if object.author == user %}
+            <div class="row">
+               <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
+                  <a href="{% url 'docs-questions-update' object.id %}" class="btn btn-primary  btn-sm d-none d-lg-flex">Edit</a>
+                  <a href="{% url 'docs-questions-delete' object.id %}" class="btn btn-danger  btn-sm d-none d-lg-flex mx-3">Delete</a>
+               </div>
+            </div>
+            {% endif %}
+         </section>
+         <!--//docs-intro-->
+      </header>
+   </article>
 </div>
 <!--//docs-wrapper-->
 {% endblock %}

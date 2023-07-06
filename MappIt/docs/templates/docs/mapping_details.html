@@ -1,65 +1,50 @@
 {% extends 'docs/base-main.html' %}
 {% block content %}
 {% load static %}
-<div class="docs-wrapper">
-   <div id="docs-sidebar" class="docs-sidebar">
-      <div class="top-search-box d-lg-none p-3">
-         <form class="search-form">
-            <input type="text" placeholder="Search the docs..." name="search" class="form-control search-input">
-            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
-         </form>
-      </div>
-      <nav id="docs-nav" class="docs-nav navbar">
-         <ul class="section-items list-unstyled nav flex-column pb-3">
-            <li class="nav-item section-title"><a class="nav-link scrollto active" href="#section-1"><span class="theme-icon-holder me-2"><i class="fas fa-map-signs"></i></span>Mapping
-               </a>
-            </li>
-            <li class="nav-item"><a class="nav-link scrollto" href="#item-1-1">All mappings</a></li>
-         </ul>
-      </nav>
-      <!--//docs-nav-->
-      <div class="container text-center fixed-bottom py-1">
-         <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
-         <small class="copyright">Designed with <span class="sr-only">love</span><i class="fas fa-heart" style="color: #fb866a;"></i> by <a class="theme-link" href="" target="_blank">Jiggly code factory</a> for BAs</small>
-      </div>
-   </div>
-   <!--//docs-sidebar-->
-   <div class="docs-content">
-      <div class="container">
-         <article class="docs-article" id="section-1">
-          <header class="docs-header mt-3">
-            <section class="docs-section" id="item-1-1">
-              <div class="row">
-               <h1>{{ dynamic_model.name }}</h1>
-               <div class="table-responsive my-4">
-                  <table class="table table-bordered">
-                     <tbody>
-                        <tr>
-                           <th class="theme-bg-light">
-                              <a class="theme-link" href="#">Field Name</a>
-                           </th>
-                        </tr>
-                        
-                           {% for field in fields %}
-                           <tr>
-                           <td class="theme-bg-light">
-                             {{ field.name }}
-                           </td>
-                           </tr>
-                           {% endfor %}
-                        
-                     </tbody>
-                  </table>
+<div class="container mt-5">
+   <header class="docs-header mt-3">
+      <section class="docs-section" id="item-1-1">
+         <div class="row">
+           <div class="row">
+                  <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                     <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
+                        <a href="{% url 'docs-mapping' %}">List</a>
+                        <h1 class="docs-heading">{{ dynamic_model.name }}</h1>
+                     </div>
+                     <div class="d-flex align-self-end flex-column">
+                        <a href="}" class="btn btn-primary d-none d-lg-flex">Create Mapping</a>
+                     </div>
+                  </div>
                </div>
-               <!--//table-responsive-->
-             </div>
-            </section>
-            </header>
-         </article>
-         <footer class="footer">
-         </footer>
-      </div>
-   </div>
+            
+            <div class="my-4 overflow-auto">
+               <table class="table-responsive table table-hover table-md table-bordered ">
+                  <thead>
+                     <tr>
+                        <th scope="col">Field Name</th>
+                        <th scope="col">Field Type</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% for field in fields %}
+                     <tr>
+                        <td>{{ field.name }}</td>
+                        <td>{{ field.data_type }}</td>
+                     </tr>
+                     {% endfor %}
+                  </tbody>
+               </table>
+            </div>
+            <div class="row">
+               <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
+                  <a href="" class="btn btn-primary  btn-sm d-none d-lg-flex">Edit</a>
+                  <a href="{" class="btn btn-danger  btn-sm d-none d-lg-flex mx-3">Delete</a>
+               </div>
+            </div>
+         </div>
+      </section>
+   </header>
+</div>
 </div>
 <!--//docs-wrapper-->
 {% endblock %}
