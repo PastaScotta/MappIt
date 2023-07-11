@@ -36,10 +36,12 @@ def home(request):
 def docs_content(request):
     return render(request, 'docs/main.html')
 
+@login_required
 def mapping_tables(request):
     dynamic_models = DynamicModel.objects.all()
     return render(request, 'docs/mapping_tables.html', {'dynamic_models': dynamic_models})
 
+@login_required
 def upload_template(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
@@ -73,6 +75,7 @@ def upload_template(request):
         form = UploadFileForm()
     return render(request, 'docs/upload_template.html', {'form': form})
 
+@login_required
 def mapping_detail(request, table_id):
     dynamic_models = DynamicModel.objects.all()
     dynamic_model = DynamicModel.objects.get(id=table_id)
@@ -80,17 +83,37 @@ def mapping_detail(request, table_id):
     # Esegui altre operazioni di visualizzazione e modifica dei valori della tabella
     if request.method == "POST":
         data = request.POST
-
+        print(data)
         #button = data.get(name)
-        if 'delete_template' not in request.POST:
+        if 'delete_field' in request.POST:
             field_id = data.get('delete_field')
             field = FieldModel.objects.get(id=field_id)
             field.delete()
+            return redirect('docs-mapping-detail' ,dynamic_model.id)
+        elif 'edit_field' in request.POST:
+            field_id = data.get('field-id')
+            field = FieldModel.objects.get(id=field_id)
+            new_field_name = data.get('new-field-name')
+            new_data_type = data.get('new-field-type')
+            field.name = new_field_name
+            field.data_type = new_data_type
+            field.save()
+            return redirect('docs-mapping-detail' ,dynamic_model.id)
+        elif 'add_field' in request.POST:  
+            field_name = data.get('field-name')
+            data_type = data.get('field-type')
+            FieldModel.objects.create(dynamic_model=dynamic_model, name=field_name, data_type=data_type)
+            return redirect('docs-mapping-detail' ,dynamic_model.id)
         else: 
             template_id = data.get('delete_template')
             template = DynamicModel.objects.get(id=template_id)
             template.delete()
             return render(request, 'docs/mapping_tables.html', {'dynamic_models': dynamic_models})
+    
+
+    #def update_field_name(field_id, value): 
+
+
     return render(request, 'docs/mapping_details.html', {'dynamic_model': dynamic_model, 'fields': fields})
 
 @login_required

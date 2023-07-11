@@ -5,36 +5,110 @@
    <header class="docs-header mt-3">
       <section class="docs-section">
          <div class="row">
-           <div class="row">
-                  <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
-                     <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
-                        <a href="{% url 'docs-mapping' %}">List</a>
-                        <h1 class="docs-heading">{{ dynamic_model.name }}</h1>
-                     </div>
-                     <div class="d-flex align-self-end flex-column">
-                        <a href="}" class="btn btn-primary d-none d-lg-flex">Create Mapping</a>
-                     </div>
+            <div class="row">
+               <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                  <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
+                     <a href="{% url 'docs-mapping' %}">List</a>
+                     <h1 class="docs-heading">{{ dynamic_model.name }}</h1>
+                  </div>
+                  <div class="d-flex align-self-end flex-column">
+                     <a href="" class="btn btn-primary d-none d-lg-flex">Create Mapping</a>
                   </div>
                </div>
-            
+            </div>
+            <!-- Modal add field-->
+            <div class="modal fade" id="add_field_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+               <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add new field</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                     <form id="field_add" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                           <div class="form-group">
+                              <label for="field-name">Field Name</label>
+                              <input type="text" class="form-control" name="field-name" required>
+                           </div>
+                           <div class="form-group">
+                              <label for="field-type" >Data Type</label>
+                              <input type="text" class="form-control" name="field-type" required>
+                           </div>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                           <button type="submit" name="add_field" value="Submit" class="btn btn-primary">Save</button>
+                        </div>
+                  </div>
+               </div>
+               </form>
+            </div>
+            <!-- end Modal -->
             <div class="my-4 overflow-auto">
-               
                <table class="table-responsive table table-hover table-md table-bordered ">
                   <thead>
                      <tr>
                         <th scope="col">Field Name</th>
                         <th scope="col">Field Type</th>
-                        <th><button type="button" class="btn btn-sm"><i class="fas fa-plus" style="color: #24FF4C;"></i></button></th>
+                        <th>
+                           <button type="button" data-toggle="modal" data-target="#add_field_modal" class="btn btn-outline-primary d-none d-lg-flex btn-sm">New field</i></button>
+                        </th>
                      </tr>
                   </thead>
                   <tbody>
                      {% for field in fields %}
                      <tr>
-                        <form id="filed_delete" method="post">
+                        <form id="field_delete" method="post">
+                           {% csrf_token %}
+                           <td>{{ field.name }}</td>
+                           <td>{{ field.data_type }}</td>
+                           <td>
+                              <div class="row">
+                                 <div class="col d-flex flex-column flex-sm-row justify-content-end">
+                                    <button type="button" data-toggle="modal" data-target="#edit_field_modal"class="btn btn-sm">
+                                       <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button type="submit" name="delete_field" value="{{ field.id }}"class="btn btn-sm">
+                                       <i class="fas fa-trash" style="color: #fb866a;"></i>
+                                    </button>
+                                 </div>
+                              </div>
+                           </td>
+                           <!-- Modal edit field-->
+                           <div class="modal fade" id="edit_field_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="exampleModalLongTitle">Edit existing field</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                        <form id="field_edit" method="post">
                         {% csrf_token %}
-                        <td contenteditable="true" onChange="someFunction()">{{ field.name }}</td>
-                        <td>{{ field.data_type }}</td>
-                        <td><button type="submit" name="delete_field" value="{{ field.id }}"class="btn btn-sm"><i class="fas fa-trash" style="color: #fb866a;"></i></button></td>
+                        <div class="modal-body">
+                        <div class="form-group">
+                        <label for="field-name">Field Name</label>
+                        <input type="text" class="form-control" name="new-field-name" value='{{ field.name }}' required>
+                        <input type="hidden" name="field-id" value='{{ field.id }}' required>
+                        </div>
+                        <div class="form-group">
+                        <label for="field-type" >Data Type</label>
+                        <input type="text" class="form-control" name="new-field-type" value='{{ field.data_type }}'required>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" name="edit_field" value="Submit" class="btn btn-primary">Save</button>
+                        </div>
+                        </div>
+                        </div>
+                        </form>
+                        </div>
+                        <!-- end Modal -->
                         </form>
                      </tr>
                      {% endfor %}
@@ -42,12 +116,11 @@
                </table>
             </div>
             <div class="row">
-
                <form id="template_delete" method="post">
                   {% csrf_token %}
-               <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
-                  <button type="submit" name="delete_template" value="{{ dynamic_model.id }}" class="btn btn-danger  btn-sm d-none d-lg-flex ">Delete</a>
-               </div>
+                  <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
+                     <button type="submit" name="delete_template" value="{{ dynamic_model.id }}" class="btn btn-danger  btn-sm d-none d-lg-flex ">Delete Template</a>
+                  </div>
                </form>
             </div>
          </div>
@@ -55,5 +128,8 @@
    </header>
 </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 <!--//docs-wrapper-->
 {% endblock %}
