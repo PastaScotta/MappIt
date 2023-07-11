@@ -3,52 +3,40 @@
 {% load static %}
 <div class="container mt-5">
    <header class="docs-header mt-3">
-      <section class="docs-section">
+      <section class="docs-section" id="item-1-1">
          <div class="row">
            <div class="row">
                   <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                      <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
-                        <a href="{% url 'docs-mapping' %}">List</a>
-                        <h1 class="docs-heading">{{ dynamic_model.name }}</h1>
+                        <a href="{% url 'docs-mapping' %}">Back</a>
+                        <h1 class="docs-heading">EDIT {{ dynamic_model.name }}</h1>
                      </div>
-                     <div class="d-flex align-self-end flex-column">
-                        <a href="}" class="btn btn-primary d-none d-lg-flex">Create Mapping</a>
-                     </div>
+                     
                   </div>
                </div>
             
             <div class="my-4 overflow-auto">
-               
                <table class="table-responsive table table-hover table-md table-bordered ">
                   <thead>
                      <tr>
                         <th scope="col">Field Name</th>
                         <th scope="col">Field Type</th>
-                        <th><button type="button" class="btn btn-sm"><i class="fas fa-plus" style="color: #24FF4C;"></i></button></th>
                      </tr>
                   </thead>
                   <tbody>
                      {% for field in fields %}
                      <tr>
-                        <form id="filed_delete" method="post">
-                        {% csrf_token %}
-                        <td contenteditable="true" onChange="someFunction()">{{ field.name }}</td>
+                        <td>{{ field.name }}</td>
                         <td>{{ field.data_type }}</td>
-                        <td><button type="submit" name="delete_field" value="{{ field.id }}"class="btn btn-sm"><i class="fas fa-trash" style="color: #fb866a;"></i></button></td>
-                        </form>
                      </tr>
                      {% endfor %}
                   </tbody>
                </table>
             </div>
             <div class="row">
-
-               <form id="template_delete" method="post">
-                  {% csrf_token %}
                <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
-                  <button type="submit" name="delete_template" value="{{ dynamic_model.id }}" class="btn btn-danger  btn-sm d-none d-lg-flex ">Delete</a>
+                  <a href="" class="btn btn-primary  btn-sm d-none d-lg-flex">Save</a>
                </div>
-               </form>
             </div>
          </div>
       </section>

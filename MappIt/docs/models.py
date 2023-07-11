@@ -46,3 +46,14 @@ class FieldModel(models.Model):
 
     class Meta:
         unique_together = ('dynamic_model', 'name')
+
+class ValueModel(models.Model):
+    dynamic_model = models.ForeignKey(DynamicModel, on_delete=models.CASCADE)
+    name = models.ForeignKey(FieldModel, on_delete=models.CASCADE)
+    value = models.CharField(max_length=255, verbose_name=_('Value'))
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        unique_together = ('dynamic_model', 'name')

@@ -74,9 +74,23 @@ def upload_template(request):
     return render(request, 'docs/upload_template.html', {'form': form})
 
 def mapping_detail(request, table_id):
+    dynamic_models = DynamicModel.objects.all()
     dynamic_model = DynamicModel.objects.get(id=table_id)
     fields = FieldModel.objects.filter(dynamic_model=dynamic_model)
     # Esegui altre operazioni di visualizzazione e modifica dei valori della tabella
+    if request.method == "POST":
+        data = request.POST
+
+        #button = data.get(name)
+        if 'delete_template' not in request.POST:
+            field_id = data.get('delete_field')
+            field = FieldModel.objects.get(id=field_id)
+            field.delete()
+        else: 
+            template_id = data.get('delete_template')
+            template = DynamicModel.objects.get(id=template_id)
+            template.delete()
+            return render(request, 'docs/mapping_tables.html', {'dynamic_models': dynamic_models})
     return render(request, 'docs/mapping_details.html', {'dynamic_model': dynamic_model, 'fields': fields})
 
 @login_required
@@ -87,7 +101,10 @@ def questions(request):
     }
     return render(request, 'docs/questions.html', context)
 
-
+def mapping_detail_update(request, table_id):
+    dynamic_model = DynamicModel.objects.get(id=table_id)
+    fields = FieldModel.objects.filter(dynamic_model=dynamic_model)
+    return render(request, 'docs/mapping_edit.html', {'dynamic_model': dynamic_model, 'fields': fields})
 
 class PostListView(LoginRequiredMixin, ListView):
     model = Post
