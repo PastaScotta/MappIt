@@ -9,25 +9,40 @@
                   <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                      <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
                         <a href="{% url 'docs-mapping' %}">Back</a>
-                        <h1 class="docs-heading">EDIT {{ dynamic_model.name }}</h1>
+                        <h1 class="docs-heading">New Mapping for {{ dynamic_model.name }}</h1>
                      </div>
                      
                   </div>
                </div>
             
             <div class="my-4 overflow-auto">
-               <table class="table-responsive table table-hover table-md table-bordered ">
-                  <thead>
+               <form id="field_delete" method="post">
+                  {% csrf_token %}
+                  <div class="row">
+               <div class="col col-lg-3 justify-content-start mb-3">
+                  <label class="mb-3">Mapping CODE</label>
+                  <input type="text" class="form-control" name="code" value='{{ field.data_type }}'required>
+               </div>
+            </div>
+               <table class="table" style="box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 10px;
+                  border-radius: 10px;">
+                  <thead style="
+                     font-size: 18px;
+                     line-height: 1.4;
+                     background-color: #E0E0E0;">
                      <tr>
-                        <th scope="col">Field Name</th>
-                        <th scope="col">Field Type</th>
+                        <th scope="col" style="padding-left: 40px;padding-top: 15px;border-top-left-radius: 10px;">Field Name</th>
+                        <th scope="col">Value</th>
                      </tr>
                   </thead>
                   <tbody>
                      {% for field in fields %}
                      <tr>
-                        <td>{{ field.name }}</td>
-                        <td>{{ field.data_type }}</td>
+                           <td style="padding-left: 40px;">{{ field.name }}</td>
+                           <td style="padding-right: 40px;">
+                              <input type="text" class="form-control" name="field-value" 'required>
+                           </td>
+                        </form>
                      </tr>
                      {% endfor %}
                   </tbody>

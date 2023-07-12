@@ -49,6 +49,7 @@ class FieldModel(models.Model):
 
 class ValueModel(models.Model):
     dynamic_model = models.ForeignKey(DynamicModel, on_delete=models.CASCADE)
+    code = models.CharField(max_length=255, unique=True, verbose_name=_('Mapping code'))
     name = models.ForeignKey(FieldModel, on_delete=models.CASCADE)
     value = models.CharField(max_length=255, verbose_name=_('Value'))
 
@@ -56,4 +57,4 @@ class ValueModel(models.Model):
         return self.name
 
     class Meta:
-        unique_together = ('dynamic_model', 'name')
+        unique_together = ('dynamic_model', 'name', 'code')

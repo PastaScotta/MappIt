@@ -2,7 +2,7 @@ import json
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Category, Post, DynamicModel, FieldModel
+from .models import Category, Post, DynamicModel, FieldModel, ValueModel
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -76,10 +76,11 @@ def upload_template(request):
     return render(request, 'docs/upload_template.html', {'form': form})
 
 @login_required
-def mapping_detail(request, table_id):
+def mapping_detail(request, table_id): 
     dynamic_models = DynamicModel.objects.all()
     dynamic_model = DynamicModel.objects.get(id=table_id)
     fields = FieldModel.objects.filter(dynamic_model=dynamic_model)
+    value_models = ValueModel.objects.filter(dynamic_model=dynamic_model)
     # Esegui altre operazioni di visualizzazione e modifica dei valori della tabella
     if request.method == "POST":
         data = request.POST
@@ -124,10 +125,11 @@ def questions(request):
     }
     return render(request, 'docs/questions.html', context)
 
-def mapping_detail_update(request, table_id):
+@login_required
+def mapping_detail_new_version(request, table_id):
     dynamic_model = DynamicModel.objects.get(id=table_id)
     fields = FieldModel.objects.filter(dynamic_model=dynamic_model)
-    return render(request, 'docs/mapping_edit.html', {'dynamic_model': dynamic_model, 'fields': fields})
+    return render(request, 'docs/mapping_version_create.html', {'dynamic_model': dynamic_model, 'fields': fields})
 
 class PostListView(LoginRequiredMixin, ListView):
     model = Post

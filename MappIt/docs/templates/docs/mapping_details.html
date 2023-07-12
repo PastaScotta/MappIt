@@ -10,9 +10,37 @@
                   <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
                      <a href="{% url 'docs-mapping' %}">List</a>
                      <h1 class="docs-heading">{{ dynamic_model.name }}</h1>
+
+                                 <div class="d--flex mt-4">
+                                    <ul class="list-group">
+                                    {% for value_model in value_models %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                       <a class="text-decoration-none" href="{% url 'docs-mapping-detail' dynamic_model.id %}">
+                                        <h4>{{ value_model.code }}</h4></a>
+                                       <span class="badge bg-primary text-white badge-pill">14</span>
+                                    </li>
+                                    {% empty %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">No tables created yet.</li>
+                                    {% endfor %}
+                                  </ul>
+                                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     <button type="button" data-toggle="modal" data-target="#add_field_modal" class="btn btn-primary d-none d-lg-flex btn-sm" style="margin: 0;">New field</i></button>
                   </div>
                   <div class="d-flex align-self-end flex-column">
-                     <a href="" class="btn btn-primary d-none d-lg-flex">Create Mapping</a>
+                     <a href="{% url 'docs-mapping-new-version' dynamic_model.id%}" class="btn btn-primary d-none d-lg-flex">Create Mapping</a>
                   </div>
                </div>
             </div>
@@ -30,11 +58,11 @@
                         {% csrf_token %}
                         <div class="modal-body">
                            <div class="form-group">
-                              <label for="field-name">Field Name</label>
+                              <label>Field Name</label>
                               <input type="text" class="form-control" name="field-name" required>
                            </div>
                            <div class="form-group">
-                              <label for="field-type" >Data Type</label>
+                              <label>Data Type</label>
                               <input type="text" class="form-control" name="field-type" required>
                            </div>
                         </div>
@@ -47,14 +75,17 @@
                </form>
             </div>
             <!-- end Modal -->
-            <div class="my-4 overflow-auto">
-               <table class="table-responsive table table-hover table-md table-bordered ">
-                  <thead>
+            <div class="my-4 overflow-auto" >
+               <table class="table" style="box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 10px;
+                  border-radius: 10px;">
+                  <thead style="
+                     font-size: 18px;
+                     line-height: 1.4;
+                     background-color: #E0E0E0;">
                      <tr>
-                        <th scope="col">Field Name</th>
+                        <th scope="col" style="padding-left: 40px;padding-top: 15px;border-top-left-radius: 10px;">Field Name</th>
                         <th scope="col">Field Type</th>
-                        <th>
-                           <button type="button" data-toggle="modal" data-target="#add_field_modal" class="btn btn-outline-primary d-none d-lg-flex btn-sm">New field</i></button>
+                        <th style="padding-right: 40px; border-top-right-radius: 10px;">Actions
                         </th>
                      </tr>
                   </thead>
@@ -63,16 +94,16 @@
                      <tr>
                         <form id="field_delete" method="post">
                            {% csrf_token %}
-                           <td>{{ field.name }}</td>
+                           <td style="padding-left: 40px;">{{ field.name }}</td>
                            <td>{{ field.data_type }}</td>
-                           <td>
+                           <td class="col col-lg-2" style="padding-right: 40px;">
                               <div class="row">
-                                 <div class="col d-flex flex-column flex-sm-row justify-content-end">
-                                    <button type="button" data-toggle="modal" data-target="#edit_field_modal"class="btn btn-sm">
-                                       <i class="fas fa-pen"></i>
+                                 <div class="col d-flex flex-column flex-sm-row">
+                                    <button type="button" data-toggle="modal" data-target="#edit_field_modal"class="bg-transparent border-0">
+                                    <i class="fas fa-pen"></i>
                                     </button>
-                                    <button type="submit" name="delete_field" value="{{ field.id }}"class="btn btn-sm">
-                                       <i class="fas fa-trash" style="color: #fb866a;"></i>
+                                    <button type="submit" name="delete_field" value="{{ field.id }}"class="bg-transparent border-0">
+                                    <i class="fas fa-trash" style="color: #fb866a; "></i>
                                     </button>
                                  </div>
                               </div>
@@ -91,12 +122,12 @@
                         {% csrf_token %}
                         <div class="modal-body">
                         <div class="form-group">
-                        <label for="field-name">Field Name</label>
+                        <label>Field Name</label>
                         <input type="text" class="form-control" name="new-field-name" value='{{ field.name }}' required>
                         <input type="hidden" name="field-id" value='{{ field.id }}' required>
                         </div>
                         <div class="form-group">
-                        <label for="field-type" >Data Type</label>
+                        <label>Data Type</label>
                         <input type="text" class="form-control" name="new-field-type" value='{{ field.data_type }}'required>
                         </div>
                         </div>
