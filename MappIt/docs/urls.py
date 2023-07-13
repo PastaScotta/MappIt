@@ -8,6 +8,7 @@ urlpatterns = [
     path('mapping/', views.mapping_tables, name='docs-mapping'),
     path('mapping/<int:table_id>/', views.mapping_detail, name='docs-mapping-detail'),
     path('mapping/<int:table_id>/new-version/', views.mapping_detail_new_version, name='docs-mapping-new-version'),
+    path('mapping/<int:table_id>/<str:code>/', views.mapping_version_detail, name='docs-mapping-version-detail'),
     path('upload-template/', views.upload_template, name='docs-upload-template'),
     path('questions/', PostListView.as_view(), name='docs-questions'),
     path('questions/<int:pk>/', PostDetailView.as_view(), name='docs-questions-detail'),

@@ -13,20 +13,6 @@ import xml.etree.ElementTree as ET
 from .importfile import extract_fields_from_json, extract_element_names_and_types
 # Create your views here.
 
-categories = [
-    {
-        'categ_name': 'APIs',
-        'categ_description': ' Section overview goes here. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-        'icon' : 'fa-box fa-fw'
-    },
-    {
-        'categ_name': 'Integrations',
-        'categ_description': ' Section overview goes here. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-        'icon' : 'fa-cogs fa-fw'
-    }
-]
-
-
 def home(request):
     context = {
         'categories' : Category.objects.all()
@@ -80,12 +66,11 @@ def mapping_detail(request, table_id):
     dynamic_models = DynamicModel.objects.all()
     dynamic_model = DynamicModel.objects.get(id=table_id)
     fields = FieldModel.objects.filter(dynamic_model=dynamic_model)
-    value_models = ValueModel.objects.filter(dynamic_model=dynamic_model)
+    value_models = ValueModel.objects.filter(dynamic_model=table_id).values('code')
+    unique_codes = value_models.distinct()
     # Esegui altre operazioni di visualizzazione e modifica dei valori della tabella
     if request.method == "POST":
         data = request.POST
-        print(data)
-        #button = data.get(name)
         if 'delete_field' in request.POST:
             field_id = data.get('delete_field')
             field = FieldModel.objects.get(id=field_id)
@@ -110,12 +95,32 @@ def mapping_detail(request, table_id):
             template = DynamicModel.objects.get(id=template_id)
             template.delete()
             return render(request, 'docs/mapping_tables.html', {'dynamic_models': dynamic_models})
-    
 
-    #def update_field_name(field_id, value): 
+    return render(request, 'docs/mapping_details.html', {'dynamic_model': dynamic_model, 'fields': fields, 'unique_codes': unique_codes})
 
 
-    return render(request, 'docs/mapping_details.html', {'dynamic_model': dynamic_model, 'fields': fields})
+@login_required
+def mapping_version_detail(request, table_id, code):
+    code_value=code 
+    dynamic_models = DynamicModel.objects.all()
+    dynamic_model = DynamicModel.objects.get(id=table_id)
+    value_models = ValueModel.objects.filter(dynamic_model=table_id ,code=code)
+    if request.method == "POST":
+        data = request.POST
+        if 'edit_field' in request.POST:
+            field_id = data.get('field-id')
+            code = data.get('code')
+            value = ValueModel.objects.get(id=field_id)
+            new_value = data.get('new-value')
+            value.value = new_value
+            value.save()
+            return redirect('docs-mapping-version-detail', dynamic_model.id,  code)
+        else:
+            value_models.delete()
+            return redirect('docs-mapping-detail' ,dynamic_model.id)
+    return render(request, 'docs/mapping_version_details.html', {'dynamic_model': dynamic_model, 'value_models': value_models})
+
+
 
 @login_required
 def questions(request):
@@ -129,6 +134,19 @@ def questions(request):
 def mapping_detail_new_version(request, table_id):
     dynamic_model = DynamicModel.objects.get(id=table_id)
     fields = FieldModel.objects.filter(dynamic_model=dynamic_model)
+    if request.method == "POST":
+        data = request.POST
+        #print(data)
+        code = data.get('code')
+        fields = data.getlist('field-name')
+        values = data.getlist('field-value')
+        dic_from_lists = dict(zip(fields, values))
+        for key, value in dic_from_lists.items():
+            ValueModel.objects.create(dynamic_model=dynamic_model, code=code, name=key, value=value)
+        return redirect('docs-mapping-detail', dynamic_model.id) 
+
+
+
     return render(request, 'docs/mapping_version_create.html', {'dynamic_model': dynamic_model, 'fields': fields})
 
 class PostListView(LoginRequiredMixin, ListView):

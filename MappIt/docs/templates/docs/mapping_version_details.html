@@ -1,0 +1,105 @@
+{% extends 'docs/base-main.html' %}
+{% block content %}
+{% load static %}
+<div class="container mt-5">
+   <header class="docs-header mt-3">
+      <section class="docs-section">
+         <div class="row">
+            <div class="row">
+               <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                  <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
+                     <a href="{% url 'docs-mapping-detail' dynamic_model.id %}">Back</a>
+                     <h1 class="docs-heading">{{ dynamic_model.name }}</h1>
+                     
+                  </div>
+                  
+               </div>
+            </div>
+            <div class="my-4 overflow-auto" >
+               <h3 class="docs-heading">Mapping code = {{ code_value }}</h3>
+               <table class="table" style="box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 10px;
+                  border-radius: 10px;">
+                  <thead style="
+                     font-size: 18px;
+                     line-height: 1.4;
+                     background-color: #E0E0E0;">
+                     <tr>
+                        <th scope="col" style="padding-left: 40px;padding-top: 15px;border-top-left-radius: 10px;">Field Name</th>
+                        <th scope="col">Value</th>
+                        <th style="padding-right: 40px; border-top-right-radius: 10px;">Actions
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% for value_model in value_models %}
+                     <tr>
+                        <form id="field_delete" method="post">
+                           {% csrf_token %}
+                           <td style="padding-left: 40px;">{{ value_model.name }}</td>
+                           <td>{{ value_model.value }}</td>
+                           <td class="col col-lg-2" style="padding-right: 40px;">
+                              <div class="row">
+                                 <div class="col d-flex flex-column flex-sm-row">
+                                    <button type="button" data-toggle="modal" data-target="#edit_field_modal" class="bg-transparent border-0">
+                                    <i class="fas fa-pen"></i>
+                                    </button>
+                                 </div>
+                              </div>
+                           </td>
+                           <!-- Modal edit field-->
+                           <div class="modal fade" id="edit_field_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="exampleModalLongTitle">Edit existing field</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                        <form id="field_edit" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                        <div class="form-group">
+                        <input type="hidden" name="code" value='{{ value_model.code }}'>
+                        <label>Field Name</label>
+                        <input type="text" class="form-control" name="new-field-name" value='{{ value_model.name }}' disabled>
+                        <input type="hidden" name="field-id" value='{{ value_model.id }}'>
+                        </div>
+                        <div class="form-group">
+                        <label>Value</label>
+                        <input type="text" class="form-control" name="new-value" value='{{ value_model.value }}'required>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" name="edit_field" value="Submit" class="btn btn-primary">Save</button>
+                        </div>
+                        </div>
+                        </div>
+                        </form>
+                        </div>
+                        <!-- end Modal -->
+                        </form>
+                     </tr>
+                     {% endfor %}
+                  </tbody>
+               </table>
+            </div>
+            <div class="row">
+               <form id="template_delete" method="post">
+                  {% csrf_token %}
+                  <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
+                     <button type="submit" name="delete_mapping" value="{{ unique_codes }}" class="btn btn-danger  btn-sm d-none d-lg-flex ">Delete Mapping</a>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </section>
+   </header>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<!--//docs-wrapper-->
+{% endblock %}

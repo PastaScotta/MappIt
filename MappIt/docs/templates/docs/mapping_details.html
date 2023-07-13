@@ -10,39 +10,28 @@
                   <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
                      <a href="{% url 'docs-mapping' %}">List</a>
                      <h1 class="docs-heading">{{ dynamic_model.name }}</h1>
+                     <h3 class="docs-heading">Created mappings</h3>
+                     <div class="d--flex mt-4">
+                        <ul class="list-group">
+                           {% for unique_code in unique_codes %}
+                           <li class="list-group-item d-flex justify-content-between align-items-center">
+                              <a class="text-decoration-none" href="{% url 'docs-mapping-version-detail' dynamic_model.id  unique_code.code %}">
+                                 <h4>{{ unique_code.code }}</h4>
+                              </a>
 
-                                 <div class="d--flex mt-4">
-                                    <ul class="list-group">
-                                    {% for value_model in value_models %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                       <a class="text-decoration-none" href="{% url 'docs-mapping-detail' dynamic_model.id %}">
-                                        <h4>{{ value_model.code }}</h4></a>
-                                       <span class="badge bg-primary text-white badge-pill">14</span>
-                                    </li>
-                                    {% empty %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">No tables created yet.</li>
-                                    {% endfor %}
-                                  </ul>
-                                 </div>
+                           </li>
+                           {% empty %}
+                           <li class="list-group-item d-flex justify-content-between align-items-center">No tables created yet.</li>
+                           {% endfor %}
+                        </ul>
 
-
-
-
-
-
-
-
-
-
-
-
-
-                     <button type="button" data-toggle="modal" data-target="#add_field_modal" class="btn btn-primary d-none d-lg-flex btn-sm" style="margin: 0;">New field</i></button>
+                     </div>
                   </div>
-                  <div class="d-flex align-self-end flex-column">
-                     <a href="{% url 'docs-mapping-new-version' dynamic_model.id%}" class="btn btn-primary d-none d-lg-flex">Create Mapping</a>
-                  </div>
+                  
                </div>
+               <div class="">
+                     <a href="{% url 'docs-mapping-new-version' dynamic_model.id%}" class="btn btn-primary">Create Mapping</a>
+                  </div>
             </div>
             <!-- Modal add field-->
             <div class="modal fade" id="add_field_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -76,6 +65,20 @@
             </div>
             <!-- end Modal -->
             <div class="my-4 overflow-auto" >
+
+               <div class="row">
+                  <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                     <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
+                        <h3 class="docs-heading">Template structure</h3>
+                     </div>
+                     <div class="d-flex align-self-end flex-column">
+                        <button type="button" data-toggle="modal" data-target="#add_field_modal" class="btn btn-primary">New field</button>
+                     </div>
+                  </div>
+               </div>
+
+
+
                <table class="table" style="box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 10px;
                   border-radius: 10px;">
                   <thead style="

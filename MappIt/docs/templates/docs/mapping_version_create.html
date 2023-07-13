@@ -5,54 +5,54 @@
    <header class="docs-header mt-3">
       <section class="docs-section" id="item-1-1">
          <div class="row">
-           <div class="row">
-                  <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
-                     <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
-                        <a href="{% url 'docs-mapping' %}">Back</a>
-                        <h1 class="docs-heading">New Mapping for {{ dynamic_model.name }}</h1>
-                     </div>
-                     
+            <div class="row">
+               <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                  <div class="text-left text-sm-left mb-2 mb-sm-0 col-lg-8">
+                     <a href="{% url 'docs-mapping-detail' dynamic_model.id %}">Back</a>
+                     <h1 class="docs-heading">New Mapping for {{ dynamic_model.name }}</h1>
                   </div>
                </div>
-            
+            </div>
             <div class="my-4 overflow-auto">
-               <form id="field_delete" method="post">
+               <form id="new_mapping_version" method="post">
                   {% csrf_token %}
                   <div class="row">
-               <div class="col col-lg-3 justify-content-start mb-3">
-                  <label class="mb-3">Mapping CODE</label>
-                  <input type="text" class="form-control" name="code" value='{{ field.data_type }}'required>
-               </div>
-            </div>
-               <table class="table" style="box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 10px;
-                  border-radius: 10px;">
-                  <thead style="
-                     font-size: 18px;
-                     line-height: 1.4;
-                     background-color: #E0E0E0;">
-                     <tr>
-                        <th scope="col" style="padding-left: 40px;padding-top: 15px;border-top-left-radius: 10px;">Field Name</th>
-                        <th scope="col">Value</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {% for field in fields %}
-                     <tr>
-                           <td style="padding-left: 40px;">{{ field.name }}</td>
-                           <td style="padding-right: 40px;">
-                              <input type="text" class="form-control" name="field-value" 'required>
+                     <div class="col col-lg-3 justify-content-start mb-3">
+                        <label class="mb-3">Mapping CODE</label>
+                        <input type="text" class="form-control" name="code" required>
+                     </div>
+                  </div>
+                  <table class="table" style="box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 10px;
+                     border-radius: 10px;">
+                     <thead style="
+                        font-size: 18px;
+                        line-height: 1.4;
+                        background-color: #E0E0E0;">
+                        <tr>
+                           <th scope="col" style="padding-left: 40px;padding-top: 15px;border-top-left-radius: 10px;">Field Name</th>
+                           <th scope="col">Value</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for field in fields %}
+                        <tr>
+                           <td style="padding-left: 40px;">
+                              <input type="hidden" name="field-name" value="{{ field.name }}">{{ field.name }}
                            </td>
-                        </form>
-                     </tr>
-                     {% endfor %}
-                  </tbody>
-               </table>
+                           <td style="padding-right: 40px;">
+                              <input type="text" class="form-control" name="field-value"required>
+                           </td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
             </div>
             <div class="row">
-               <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
-                  <a href="" class="btn btn-primary  btn-sm d-none d-lg-flex">Save</a>
-               </div>
+            <div class="col d-flex flex-column flex-sm-row justify-content-start mb-3">
+            <button type="submit" name="new_mapping_version" value="Submit" class="btn btn-primary">Save</button>
             </div>
+            </div>
+            </form>
          </div>
       </section>
    </header>
