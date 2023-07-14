@@ -1,7 +1,8 @@
 {% extends 'docs/base-main.html' %}
 {% block content %}
 {% load static %}
-   
+
+
    <!--//docs-sidebar-->
       <div class="container mt-5">
             <header class="docs-header">
@@ -30,7 +31,6 @@
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                      <a class="text-decoration-none" href="{% url 'docs-mapping-detail' dynamic_model.id %}">
                       <h4>{{ dynamic_model.name }}</h4></a>
-                     <span class="badge bg-primary text-white badge-pill">14</span>
                   </li>
                   {% empty %}
                   <li class="list-group-item d-flex justify-content-between align-items-center">No tables created yet.</li>

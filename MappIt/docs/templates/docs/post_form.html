@@ -2,12 +2,13 @@
 {% block content %}
 {% load static %}
 {% load crispy_forms_tags %}
-<div class="docs-wrapper">
-   <!--//docs-sidebar-->
    <div class="container">
-      <div class="content-section pt-5">
+      <article class="docs-article">
+         <header class="docs-header mt-3">
+      <div class="row">
          <form method="POST" class="my-login-validation " enctype="multipart/form-data" novalidate="">
             {% csrf_token %}
+            <a href="{% url 'docs-questions' %}">Home</a>
             <h1 class="pb-4 ">Edit Question</h1>
             <fieldset class="form-group mt-4 col-6">
                {{form|crispy}}
@@ -19,6 +20,7 @@
             </div>
          </form>
       </div>
-   </div>
+   </header>
+   </article>
 </div>
 {% endblock %}

@@ -12,7 +12,7 @@
                      <h1 class="docs-heading">{{ dynamic_model.name }}</h1>
                      <h3 class="docs-heading">Created mappings</h3>
                      <div class="d--flex mt-4">
-                        <ul class="list-group">
+                        <ul class="list-group col-4">
                            {% for unique_code in unique_codes %}
                            <li class="list-group-item d-flex justify-content-between align-items-center">
                               <a class="text-decoration-none" href="{% url 'docs-mapping-version-detail' dynamic_model.id  unique_code.code %}">
@@ -102,8 +102,12 @@
                            <td class="col col-lg-2" style="padding-right: 40px;">
                               <div class="row">
                                  <div class="col d-flex flex-column flex-sm-row">
-                                    <button type="button" data-toggle="modal" data-target="#edit_field_modal"class="bg-transparent border-0">
+
+
+                                  <button type="button" class="bg-transparent border-0" onclick="passVariables('{{ field.name }}', '{{ field.data_type }}', '{{ field.id }}')" data-toggle="modal" data-target="#edit_field_modal">
                                     <i class="fas fa-pen"></i>
+
+
                                     </button>
                                     <button type="submit" name="delete_field" value="{{ field.id }}"class="bg-transparent border-0">
                                     <i class="fas fa-trash" style="color: #fb866a; "></i>
@@ -126,12 +130,12 @@
                         <div class="modal-body">
                         <div class="form-group">
                         <label>Field Name</label>
-                        <input type="text" class="form-control" name="new-field-name" value='{{ field.name }}' required>
-                        <input type="hidden" name="field-id" value='{{ field.id }}' required>
+                        <input type="text" class="form-control" id="fieldname" name="new-field-name" value='{{ field.name }}' required>
+                        <input type="hidden" name="field-id" id="fieldid" value='{{ field.id }}' required>
                         </div>
                         <div class="form-group">
                         <label>Data Type</label>
-                        <input type="text" class="form-control" name="new-field-type" value='{{ field.data_type }}'required>
+                        <input type="text" class="form-control" id="fieldtype" name="new-field-type" value='{{ field.data_type }}'required>
                         </div>
                         </div>
                         <div class="modal-footer">
@@ -162,6 +166,19 @@
    </header>
 </div>
 </div>
+<script>
+function passVariables(variable1, variable2, variable3) {
+  // Recupera l'elemento di input
+  var inputName = document.getElementById('fieldname');
+  var inputtype = document.getElementById('fieldtype');
+  var inputID = document.getElementById('fieldid');
+  
+  // Imposta i valori delle variabili come valore dell'input
+  inputName.value = variable1;
+  inputtype.value = variable2;
+  inputID.value = variable3;
+}
+</script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

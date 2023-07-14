@@ -118,7 +118,7 @@ def mapping_version_detail(request, table_id, code):
         else:
             value_models.delete()
             return redirect('docs-mapping-detail' ,dynamic_model.id)
-    return render(request, 'docs/mapping_version_details.html', {'dynamic_model': dynamic_model, 'value_models': value_models})
+    return render(request, 'docs/mapping_version_details.html', {'dynamic_model': dynamic_model, 'value_models': value_models, 'mapping_code': code})
 
 
 
